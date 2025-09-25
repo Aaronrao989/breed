@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* BPA Dashboard Design System - Government/Agriculture Inspired */
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 210 24% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 24% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 24% 16%;
+
+    /* Government Green - Primary Brand */
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 142 76% 32%;
+
+    /* Government Blue - Secondary */
+    --secondary: 207 90% 54%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Saffron Accent */
+    --accent: 35 100% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Muted backgrounds */
+    --muted: 142 20% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    /* Status colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 98%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* UI Elements */
+    --border: 142 20% 88%;
+    --input: 142 20% 92%;
+    --ring: 142 76% 36%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar colors */
+    --sidebar-background: 142 76% 36%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 142 76% 36%;
+    --sidebar-accent: 142 76% 40%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 142 76% 32%;
+    --sidebar-ring: 0 0% 98%;
+
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
+    --gradient-dashboard: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    
+    /* Shadows */
+    --shadow-card: 0 4px 6px -1px hsl(var(--primary) / 0.1);
+    --shadow-elevated: 0 10px 15px -3px hsl(var(--primary) / 0.1);
+  }
+
+  .dark {
+    --background: 142 20% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 142 20% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 142 20% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 142 76% 36%;
+
+    --secondary: 142 20% 15%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 142 20% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 35 100% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 142 20% 15%;
+    --input: 142 20% 15%;
+    --ring: 0 0% 98%;
+
+    --sidebar-background: 142 20% 10%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 142 20% 10%;
+    --sidebar-accent: 142 20% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 142 20% 15%;
+    --sidebar-ring: 0 0% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .dashboard-gradient {
+    background: var(--gradient-dashboard);
+  }
+  
+  .card-shadow {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .elevated-shadow {
+    box-shadow: var(--shadow-elevated);
+  }
+}
