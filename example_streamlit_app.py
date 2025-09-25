@@ -874,12 +874,8 @@ from matplotlib import font_manager as fm
 from matplotlib import rcParams
 
 # Full path to your Noto Sans Devanagari font
-font_path = "/Users/aaronrao/Library/Fonts/NotoSansDevanagari-Regular.ttf"
-
-# Load the font directly
-devanagari_font = fm.FontProperties(fname=font_path)
-
-# Set it as the default for all plots
+font_path = "fonts/NotoSansDevanagari-Regular.ttf"  # relative to project root
+devanagari_font = matplotlib.font_manager.FontProperties(fname=font_path)
 rcParams['font.family'] = devanagari_font.get_name()
 
 
