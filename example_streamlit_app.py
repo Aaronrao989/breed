@@ -869,15 +869,15 @@ from torchvision import models, transforms
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
-
 from matplotlib import font_manager as fm
 from matplotlib import rcParams
 
-# Full path to your Noto Sans Devanagari font
-font_path = "fonts/NotoSansDevanagari-Regular.ttf"  # relative to project root
-devanagari_font = matplotlib.font_manager.FontProperties(fname=font_path)
-rcParams['font.family'] = devanagari_font.get_name()
+# ✅ Full path to your Noto Sans Devanagari font (relative to project root)
+font_path = "fonts/NotoSansDevanagari-Regular.ttf"
+devanagari_font = fm.FontProperties(fname=font_path)
 
+# ✅ Set default font family for matplotlib
+rcParams['font.family'] = devanagari_font.get_name()
 
 # --------------------------
 # CowBreedClassifier for inference
