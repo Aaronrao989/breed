@@ -23,27 +23,9 @@ interface BreedPrediction {
 }
 
 const mockPredictions: BreedPrediction[] = [
-  {
-    breed: "Gir",
-    confidence: 96.8,
-    species: "Cattle",
-    region: "Gujarat, Rajasthan",
-    characteristics: ["Distinctive hump", "Drooping ears", "Heat resistant", "Good milk producer"]
-  },
-  {
-    breed: "Red Sindhi",
-    confidence: 89.2,
-    species: "Cattle", 
-    region: "Sindh, Punjab",
-    characteristics: ["Red coat color", "Medium sized", "Dual purpose", "Hardy breed"]
-  },
-  {
-    breed: "Sahiwal",
-    confidence: 76.4,
-    species: "Cattle",
-    region: "Punjab, Haryana",
-    characteristics: ["Reddish brown", "Good milker", "Heat tolerant", "Docile temperament"]
-  }
+  { breed: "Gir", confidence: 96.8, species: "Cattle", region: "Gujarat, Rajasthan", characteristics: ["Distinctive hump", "Drooping ears", "Heat resistant", "Good milk producer"] },
+  { breed: "Red Sindhi", confidence: 89.2, species: "Cattle", region: "Sindh, Punjab", characteristics: ["Red coat color", "Medium sized", "Dual purpose", "Hardy breed"] },
+  { breed: "Sahiwal", confidence: 76.4, species: "Cattle", region: "Punjab, Haryana", characteristics: ["Reddish brown", "Good milker", "Heat tolerant", "Docile temperament"] }
 ];
 
 export const BreedIdentification = () => {
@@ -76,19 +58,19 @@ export const BreedIdentification = () => {
 
   const analyzeImage = async () => {
     if (!selectedImage) return;
-
     setIsAnalyzing(true);
 
     try {
+      // Convert base64 to blob
       const response = await fetch(selectedImage);
       const blob = await response.blob();
 
       const formData = new FormData();
       formData.append("file", blob, "image.jpg");
 
-      // Call Render Flask API
+      // Call Render API for live prediction
       const res = await axios.post(
-        "https://breed-5oyq9vgj1.onrender.com/predict",
+        "https://breed-5oyq9vgj1-aarons-projects-40979957.onrender.com/predict",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -98,7 +80,7 @@ export const BreedIdentification = () => {
       // Map API response to BreedPrediction[]
       const formattedPredictions: BreedPrediction[] = data.top3_prob.map(
         (prob: number, idx: number) => ({
-          breed: data.top3_indices[idx], // Replace with actual breed name mapping if needed
+          breed: data.top3_indices[idx], // Replace with proper breed name mapping if needed
           confidence: prob,
           species: "Cattle",
           region: "",
@@ -168,21 +150,6 @@ export const BreedIdentification = () => {
         </div>
       </div>
 
-      {/* Notice about Streamlit live demo */}
-      <Card className="card-shadow">
-        <CardHeader>
-          <CardTitle>Live AI Demo (Streamlit)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            The live AI demo using Streamlit cannot be embedded on Vercel. You can view it directly:
-            <a href="https://breed-5oyq9vgj1.onrender.com" target="_blank" className="text-primary ml-1">
-              Open Streamlit Demo
-            </a>
-          </p>
-        </CardContent>
-      </Card>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Image Upload Section */}
         <Card className="card-shadow">
@@ -206,58 +173,23 @@ export const BreedIdentification = () => {
                       Take Photo
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    Upload a clear photo of the animal for best results
-                  </p>
+                  <p className="text-sm text-muted-foreground">Upload a clear photo of the animal for best results</p>
                 </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="relative">
-                  <img 
-                    src={selectedImage} 
-                    alt="Uploaded animal" 
-                    className="w-full h-64 object-cover rounded-lg"
-                  />
-                  {confirmedBreed && (
-                    <div className="absolute top-2 right-2">
-                      <Badge className="bg-success text-success-foreground gap-1">
-                        <CheckCircle className="h-3 w-3" />
-                        Confirmed
-                      </Badge>
-                    </div>
+                <img src={selectedImage} alt="Uploaded animal" className="w-full h-64 object-cover rounded-lg" />
+                <Button onClick={analyzeImage} disabled={isAnalyzing || !!predictions} className="flex-1 gap-2">
+                  {isAnalyzing ? (
+                    <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <Camera className="h-4 w-4" />
+                      Identify Breed
+                    </>
                   )}
-                </div>
-                
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={analyzeImage} 
-                    disabled={isAnalyzing || !!predictions}
-                    className="flex-1 gap-2"
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Camera className="h-4 w-4" />
-                        Identify Breed
-                      </>
-                    )}
-                  </Button>
-                  <Button onClick={() => fileInputRef.current?.click()} variant="outline">
-                    <Upload className="h-4 w-4" />
-                  </Button>
-                </div>
+                </Button>
               </div>
             )}
           </CardContent>
@@ -290,36 +222,7 @@ export const BreedIdentification = () => {
                           </Badge>
                         </div>
                       </div>
-                      
                       <Progress value={prediction.confidence} className="mb-3" />
-                      
-                      <div className="space-y-2">
-                        <p className="text-sm font-medium">Key Characteristics:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {prediction.characteristics.map((char, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
-                              {char}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      <div className="flex gap-2 mt-4">
-                        <Button 
-                          onClick={() => confirmBreed(prediction.breed)}
-                          disabled={!!confirmedBreed}
-                          size="sm"
-                          variant={index === 0 ? "default" : "outline"}
-                          className="gap-1"
-                        >
-                          <CheckCircle className="h-3 w-3" />
-                          Confirm
-                        </Button>
-                        <Button size="sm" variant="outline" className="gap-1">
-                          <Info className="h-3 w-3" />
-                          Details
-                        </Button>
-                      </div>
                     </CardContent>
                   </Card>
                 ))}
