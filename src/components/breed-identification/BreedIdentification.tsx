@@ -8,7 +8,6 @@ import {
   Upload, 
   RotateCcw, 
   CheckCircle,
-  AlertCircle,
   Info,
   Image as ImageIcon
 } from "lucide-react";
@@ -52,7 +51,6 @@ export const BreedIdentification = () => {
   const [predictions, setPredictions] = useState<BreedPrediction[] | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [confirmedBreed, setConfirmedBreed] = useState<string | null>(null);
-  const [showStreamlit, setShowStreamlit] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -82,17 +80,18 @@ export const BreedIdentification = () => {
     setIsAnalyzing(true);
 
     try {
-      // Convert base64 to blob for API call
       const response = await fetch(selectedImage);
       const blob = await response.blob();
 
       const formData = new FormData();
       formData.append("file", blob, "image.jpg");
 
-      // Axios call to Flask proxy API (handles CORS)
-      const res = await axios.post("http://127.0.0.1:8000/predict", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      // Call Render Flask API
+      const res = await axios.post(
+        "https://breed-5oyq9vgj1.onrender.com/predict",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       const data = res.data;
 
@@ -146,12 +145,6 @@ export const BreedIdentification = () => {
     }
   };
 
-  const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 90) return "text-success";
-    if (confidence >= 75) return "text-warning";
-    return "text-destructive";
-  };
-
   const getConfidenceBadge = (confidence: number) => {
     if (confidence >= 90) return "bg-success text-success-foreground";
     if (confidence >= 75) return "bg-warning text-warning-foreground";
@@ -166,14 +159,6 @@ export const BreedIdentification = () => {
           <p className="text-muted-foreground">Upload or capture animal photos for AI-powered breed recognition</p>
         </div>
         <div className="flex gap-2">
-          <Button 
-            onClick={() => setShowStreamlit(!showStreamlit)} 
-            variant={showStreamlit ? "default" : "outline"}
-            className="gap-2"
-          >
-            <Camera className="h-4 w-4" />
-            {showStreamlit ? "Hide Live AI" : "Show Live AI Demo"}
-          </Button>
           {selectedImage && (
             <Button onClick={resetAnalysis} variant="outline" className="gap-2">
               <RotateCcw className="h-4 w-4" />
@@ -183,34 +168,20 @@ export const BreedIdentification = () => {
         </div>
       </div>
 
-      {/* Streamlit Integration */}
-      {showStreamlit && (
-        <Card className="card-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Camera className="h-5 w-5" />
-              Live AI Model Demo
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="border rounded-lg overflow-hidden">
-              <iframe 
-                src="http://localhost:8501" 
-                width="100%" 
-                height="600"
-                className="border-0"
-                title="Streamlit AI Model"
-              />
-            </div>
-            <div className="mt-3 p-3 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">
-                <strong>Live AI Demo:</strong> This is your actual PyTorch model running in Streamlit. 
-                Upload images here to see real predictions with Grad-CAM visualization.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {/* Notice about Streamlit live demo */}
+      <Card className="card-shadow">
+        <CardHeader>
+          <CardTitle>Live AI Demo (Streamlit)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            The live AI demo using Streamlit cannot be embedded on Vercel. You can view it directly:
+            <a href="https://breed-5oyq9vgj1.onrender.com" target="_blank" className="text-primary ml-1">
+              Open Streamlit Demo
+            </a>
+          </p>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Image Upload Section */}
@@ -362,24 +333,6 @@ export const BreedIdentification = () => {
           </CardContent>
         </Card>
       </div>
-
-      {/* Tips Section */}
-      <Card className="card-shadow">
-        <CardContent className="p-4">
-          <div className="flex items-start gap-3">
-            <Info className="h-5 w-5 text-secondary mt-0.5" />
-            <div>
-              <h4 className="font-medium text-sm mb-1">Tips for Better Results</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Capture clear, well-lit photos of the animal</li>
-                <li>• Include distinctive features like face, body shape, and coat pattern</li>
-                <li>• Avoid blurry or distant shots</li>
-                <li>• Multiple angles can improve accuracy</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
