@@ -1171,7 +1171,7 @@ def main():
                     <h3 style="color: #2e7d32;">📸 अपलोड किया गया चित्र | Uploaded Image</h3>
                 </div>
             """, unsafe_allow_html=True)
-            st.image(image, caption="अपलोड किया गया पशु चित्र | Uploaded cattle image", use_container_width=True)
+            st.image(image, caption="अपलोड किया गया पशु चित्र | Uploaded cattle image", use_column_width=True)
         
         with col2:
             st.markdown("""
