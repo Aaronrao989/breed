@@ -970,131 +970,144 @@ def main():
     # Custom CSS for green theme and enhanced UI
     st.markdown("""
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-        .main {
-            background: linear-gradient(135deg, #f0f8f0 0%, #e6f7e6 100%);
-        }
-        
-        .title-container {
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #66bb6a 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(46, 125, 50, 0.3);
-        }
-        
-        .title-text {
-            color: white;
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .subtitle-text {
-            color: #e8f5e8;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-            font-weight: 300;
-        }
-        
-        .upload-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 3px solid #4caf50;
-            margin-bottom: 2rem;
-        }
-        
-        .prediction-section {
-            background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border-left: 5px solid #4caf50;
-        }
-        
-        .metric-container {
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            color: white;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
-        }
-        
-        .breed-result {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .confidence-text {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .info-box {
-            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid #4caf50;
-            margin: 1rem 0;
-            color: #2e7d32;  /* green text */
-            font-family: 'Poppins', sans-serif;  /* custom font */
-        }
-        
-        .feature-icon {
-            font-size: 2rem;
-            margin-right: 0.5rem;
-            color: #2e7d32;
-        }
-        
-        .stButton > button {
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .stButton > button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
-        }
-        
-        .footer-container {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 3rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        
-        .progress-container {
-            margin: 1rem 0;
-            padding: 0.5rem;
-            background: #f1f8e9;
-            border-radius: 8px;
-            color: #2e7d32; /* green text for predictions */
-            font-family: 'Poppins', sans-serif; /* custom font */
-        }
-        
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        </style>
+/* ---------- GLOBAL ---------- */
+body {
+    background-color: #0f172a;
+    color: #f9fafb;
+    font-family: 'Poppins', sans-serif;
+}
+
+.main {
+    background: #0f172a;
+}
+
+/* ---------- HEADER ---------- */
+.title-container {
+    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+.title-text {
+    color: #f9fafb;
+    text-align: center;
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+
+.subtitle-text {
+    color: #d1fae5;
+    text-align: center;
+    font-size: 1.15rem;
+}
+
+/* ---------- INFO BOX ---------- */
+.info-box {
+    background: #111827;
+    padding: 1.6rem;
+    border-radius: 14px;
+    border-left: 5px solid #22c55e;
+    margin: 1rem 0;
+    color: #f9fafb;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    color: #facc15;
+}
+
+/* ---------- UPLOAD ---------- */
+.upload-section {
+    background: #111827;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #334155;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+}
+
+/* ---------- PREDICTION ---------- */
+.prediction-section {
+    background: #111827;
+    padding: 2rem;
+    border-radius: 16px;
+    border-left: 6px solid #22c55e;
+    color: #f9fafb;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+/* ---------- RESULT ---------- */
+.metric-container {
+    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+    padding: 1.8rem;
+    border-radius: 14px;
+    margin: 1.2rem 0;
+    color: #f9fafb;
+    text-align: center;
+}
+
+.breed-result {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.confidence-text {
+    font-size: 1.1rem;
+    color: #d1fae5;
+}
+
+/* ---------- TOP 3 ---------- */
+.progress-container {
+    margin: 0.8rem 0;
+    padding: 0.9rem 1rem;
+    background: #020617;
+    border-radius: 10px;
+    color: #f9fafb;
+    font-weight: 600;
+    border: 1px solid #334155;
+}
+
+/* ---------- BUTTON ---------- */
+.stButton > button {
+    background: linear-gradient(135deg, #facc15 0%, #fde047 100%);
+    color: #020617;
+    border: none;
+    padding: 0.8rem 2.2rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.75);
+}
+
+/* ---------- FOOTER ---------- */
+.footer-container {
+    background: #052e16;
+    color: #f9fafb;
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 3rem;
+    box-shadow: 0 8px 26px rgba(0,0,0,0.6);
+}
+
+/* ---------- HIDE STREAMLIT UI ---------- */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+
+
         """, unsafe_allow_html=True)
     
     # Main title section
